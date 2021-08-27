@@ -43,7 +43,6 @@ public class Application implements CommandLineRunner {
 
 			Content projects = Content.builder()
 				.name("Projects")
-				.slug("projects")
 				.displayedField("name")
 				.contentField(fieldCcsName)
 				.contentField(fieldCcsDescription)

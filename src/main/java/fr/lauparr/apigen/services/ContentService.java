@@ -14,6 +14,8 @@ import java.util.List;
 public class ContentService {
 
 	@Autowired
+	private DatabaseService databaseService;
+	@Autowired
 	private ContentRepository contentRepository;
 
 	public List<Content> getContents() {
@@ -30,6 +32,7 @@ public class ContentService {
 			.build();
 
 		content = contentRepository.save(content);
+		databaseService.createCollection(content);
 
 		return content;
 	}
@@ -37,9 +40,12 @@ public class ContentService {
 	public Content updateContent(String idContent, ContentVM body) {
 		Content content = contentRepository.findById(idContent).orElseThrow(DataNotFoundException::new);
 
+		String oldCollectionName = content.getCollectionName();
+
 		content.setName(body.getName());
 
 		content = contentRepository.save(content);
+		databaseService.updateCollection(oldCollectionName, content);
 
 		return content;
 	}

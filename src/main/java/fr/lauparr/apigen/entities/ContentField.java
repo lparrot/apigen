@@ -1,17 +1,13 @@
 package fr.lauparr.apigen.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.lauparr.apigen.enums.EnumContentFieldRelationType;
 import fr.lauparr.apigen.enums.EnumContentFieldType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import static fr.lauparr.apigen.utils.StringUtils.toSnakeCase;
 
 @Getter
 @Setter
@@ -40,10 +36,5 @@ public class ContentField {
 		this.type = type;
 		this.relationType = relationType;
 		this.relationContent = relationContent;
-	}
-
-	@JsonIgnore
-	public String getSnakeCaseName() {
-		return toSnakeCase(this.name);
 	}
 }
