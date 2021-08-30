@@ -77,11 +77,11 @@ export default {
       target: 'http://localhost:8080',
       changeOrigin: true,
     },
-    // '/ws': {
-    //   target: 'http://localhost:8080',
-    //   changeOrigin: false,
-    //   ws: true,
-    // },
+    '/ws': {
+      target: 'http://localhost:8080',
+      changeOrigin: false,
+      ws: true,
+    },
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

@@ -6,13 +6,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ValueTextDto {
+public class ValueTextDTO {
 
   private String text;
   private Object value;
 
   @Builder
-  public ValueTextDto(String text, Object value) {
+  public ValueTextDTO(String text, Object value) {
     this.text = text;
     this.value = value;
   }

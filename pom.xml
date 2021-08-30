@@ -14,5 +14,13 @@
     <module>web</module>
     <module>server</module>
   </modules>
+  <dependencies>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>2.12.4</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 
 </project>

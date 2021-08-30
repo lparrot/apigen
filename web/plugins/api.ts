@@ -3,8 +3,10 @@ import { ApiList } from '~/api/ApiList'
 import { ApiItem } from '~/api/ApiItem'
 import { ApiContentField } from '~/api/ApiContentField'
 import { ApiRelation } from '~/api/ApiRelation'
+import { ApiAdmin } from '~/api/ApiAdmin'
 
 export const factories = {
+  admin: ApiAdmin.prototype,
   content: ApiContent.prototype,
   content_fields: ApiContentField.prototype,
   item: ApiItem.prototype,

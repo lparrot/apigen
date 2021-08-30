@@ -17,6 +17,14 @@
   <properties>
     <node.version>v14.16.1</node.version>
   </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>2.12.4</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>

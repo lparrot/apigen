@@ -1,6 +1,6 @@
 package fr.lauparr.apigen.controllers;
 
-import fr.lauparr.apigen.dtos.ValueTextDto;
+import fr.lauparr.apigen.dtos.ValueTextDTO;
 import fr.lauparr.apigen.services.RelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class RelationController {
   private RelationService relationService;
 
   @GetMapping("/{idContent}")
-  public List<ValueTextDto> getAllData(@PathVariable String idContent) {
+  public List<ValueTextDTO> getAllData(@PathVariable String idContent) {
     return relationService.getAllData(idContent);
   }
 

@@ -4,8 +4,8 @@ import { Context } from '@nuxt/types'
 export default async (ctx, inject) => {
   const socket = new SocketService(ctx)
 
-  // socket.createConnection()
-  // await socket.connect()
+  socket.createConnection()
+  await socket.connect()
 
   inject('socket', socket)
 }
