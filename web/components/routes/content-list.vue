@@ -52,9 +52,12 @@ export default class PageContentList extends Vue {
   }
 
   async deleteContent () {
-    await this.$api.content.remove(this.content._id)
-    await this.$router.push({ name: 'content' })
-    await this.getContents()
+    const confirm = await this.$confirm.open('Confirmation', 'Are you sure ?', { color: 'warning' })
+    if (confirm) {
+      await this.$api.content.remove(this.content._id)
+      await this.$router.push({ name: 'content' })
+      await this.getContents()
+    }
   }
 
   getCellSlot (key) {

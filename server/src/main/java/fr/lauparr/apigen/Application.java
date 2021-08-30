@@ -29,7 +29,7 @@ public class Application implements CommandLineRunner {
   }
 
   @Override
-  public void run(String... args) throws Exception {
+  public void run(String... args) {
     if (this.contentRepository.count() < 1) {
       ContentField fieldCcsName = ContentField.builder()
         .name("Name")

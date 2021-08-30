@@ -47,7 +47,7 @@
           </template>
 
           <template v-if="field.type.code === 'RELATION'">
-            <v-select v-model="item[field.fieldName]" :error-messages="errors[0]" :items="relations[field.fieldName]" :label="field.name" dense outlined></v-select>
+            <v-select v-model="item[field.fieldName]" :error-messages="errors[0]" :items="relations[field.relationContent.slug]" :label="field.name" dense outlined></v-select>
           </template>
         </validation-provider>
       </div>
@@ -92,8 +92,10 @@ export default class PageContentItem extends Vue {
     }
 
     for await (let field of this.content.fields.filter(field => field.type.code === 'RELATION')) {
-      this.relations[field.fieldName] = await this.$api.relation.getAllData(field.relationContent._id);
+      this.relations[field.relationContent.slug] = await this.$api.relation.getAllData(field.relationContent._id);
     }
+
+    console.log(this.relations)
   }
 
   async submit () {

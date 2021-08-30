@@ -9,11 +9,12 @@ import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@Document
+@Document(collection = "content-field")
 @NoArgsConstructor
 public class ContentField {
 
@@ -28,6 +29,7 @@ public class ContentField {
   private EnumContentFieldType type;
 
   private EnumContentFieldRelationType relationType;
+  @DBRef
   private Content relationContent;
 
   @Builder

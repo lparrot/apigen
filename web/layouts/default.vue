@@ -10,13 +10,18 @@
 
         <v-divider class="my-2"></v-divider>
 
-        <v-btn :to="{name: 'content'}" block color="success">Add content</v-btn>
+        <v-btn :to="{name: 'content'}" block color="success" small text>
+          <v-icon>mdi-playlist-plus</v-icon>
+          <span>Add content</span>
+        </v-btn>
 
         <v-subheader>Collections</v-subheader>
 
         <v-list-item v-for="(content, contentIndex) in contents" :key="`content-${contentIndex}`" :to="{name: 'content-list', params: {idContent: content._id}}" exact router style="min-height: 26px">
-          <v-icon class="mr-2" dense small>mdi-apps</v-icon>
-          <v-list-item-content class="py-1">
+          <v-btn :to="{name: 'content', params: {idContent: content._id}}" icon text x-small>
+            <v-icon dense x-small>mdi-pencil</v-icon>
+          </v-btn>
+          <v-list-item-content class="py-1 ml-4">
             <v-list-item-title v-text="content.name"/>
           </v-list-item-content>
         </v-list-item>

@@ -1,6 +1,5 @@
 <template>
   <v-row v-if="!$fetchState.pending">
-    {{ field }}
     <v-col cols="12" md="6">
       <validation-provider #default="{errors}" name="relation type" rules="required">
         <v-select v-model="field.relationType" :error-messages="errors[0]" :items="fieldRelationTypes" dense item-text="label" item-value="code" label="Relation type" outlined></v-select>

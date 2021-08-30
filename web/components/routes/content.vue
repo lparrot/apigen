@@ -224,7 +224,7 @@ export default class PageContent extends Vue {
       } else {
         const content = await this.$api.content.create(this.content)
         if (content !== '') {
-          await this.$router.push({ name: 'content-list', params: { idContent: content._id } })
+          await this.$router.push({ name: 'content', params: { idContent: content._id } })
         }
       }
       await this.getContents()
