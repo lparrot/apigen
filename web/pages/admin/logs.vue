@@ -33,7 +33,7 @@ export default class PageAdminLogs extends Vue {
   }
 
   async openFile () {
-    window.open('/api/actuator/logfile')
+    window.open('/api/app/actuator/logfile')
   }
 }
 </script>

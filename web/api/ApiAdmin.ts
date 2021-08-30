@@ -21,7 +21,10 @@ export class ApiAdmin extends AbstractRepository {
     return this._axios.$get('/app/actuator/logfile')
   }
 
-  getMetrics () {
+  getMetrics (name?: string) {
+    if (name != null) {
+      return this._axios.$get(`/app/actuator/metrics/${ name }`)
+    }
     return this._axios.$get('/app/actuator/metrics')
   }
 

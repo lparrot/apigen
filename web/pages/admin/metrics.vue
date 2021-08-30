@@ -73,7 +73,7 @@ export default class PageAdminMetrics extends Vue {
     this.selectedTags = {}
     this.selectedTagValue = null
 
-    this.selectedMetric = await this.$axios.$get('/actuator/metrics/' + this.selectedName)
+    this.selectedMetric = await this.$api.admin.getMetrics(this.selectedName)
     this.selectedTagValue = this.selectedMetric.measurements
   }
 
@@ -83,7 +83,7 @@ export default class PageAdminMetrics extends Vue {
         .filter(tag => this.selectedTags[tag] != null)
         .map(tag => `tag=${ tag }:${ this.selectedTags[tag] }`)
         .join('&')
-      const res_metric_tag_value = await this.$axios.$get(`/actuator/metrics/${ this.selectedName }?${ encodeURI(tags) }`)
+      const res_metric_tag_value = await this.$api.admin.getMetrics(`${ this.selectedName }?${ encodeURI(tags) }`)
       this.selectedTagValue = res_metric_tag_value.measurements
     }
   }
