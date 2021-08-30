@@ -26,17 +26,17 @@ public class ContentItemController {
   }
 
   @PostMapping
-  public ResponseEntity<?> entryPost(@PathVariable String slug, @RequestBody(required = false) ObjectNode body) {
+  public ResponseEntity<?> create(@PathVariable String slug, @RequestBody(required = false) ObjectNode body) {
     return ResponseEntity.status(201).body(contentItemService.create(slug, body));
   }
 
   @PutMapping("/{idItem}")
-  public ResponseEntity<?> entryPut(@PathVariable String slug, @PathVariable String idItem, @RequestBody(required = false) ObjectNode body) {
+  public ResponseEntity<?> update(@PathVariable String slug, @PathVariable String idItem, @RequestBody(required = false) ObjectNode body) {
     return ResponseEntity.ok(contentItemService.update(slug, idItem, body));
   }
 
   @DeleteMapping("/{idItem}")
-  public ResponseEntity<?> entryDelete(ServerHttpRequest request, @PathVariable String slug, @PathVariable String idItem) {
+  public ResponseEntity<?> remove(ServerHttpRequest request, @PathVariable String slug, @PathVariable String idItem) {
     return ResponseEntity.ok(contentItemService.remove(slug, idItem));
   }
 

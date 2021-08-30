@@ -11,9 +11,11 @@ import lombok.Setter;
 public class ContentVM {
 
   private String name;
+  private String displayedField;
 
   @Builder
-  public ContentVM(String name) {
+  public ContentVM(String name, String displayedField) {
     this.name = name;
+    this.displayedField = displayedField;
   }
 }

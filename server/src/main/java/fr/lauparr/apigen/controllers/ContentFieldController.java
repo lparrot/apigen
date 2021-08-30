@@ -20,7 +20,7 @@ public class ContentFieldController {
     return this.contentFieldService.getContentFields();
   }
 
-  @GetMapping("/{idContent}")
+  @GetMapping("/{idContentField}")
   public ContentField getById(@PathVariable String idContentField) {
     return this.contentFieldService.getContentFieldById(idContentField);
   }
@@ -30,14 +30,14 @@ public class ContentFieldController {
     return this.contentFieldService.createContentField(body);
   }
 
-  @PutMapping("/{idContent}")
-  public ContentField update(@PathVariable String idContent, @RequestBody ContentFieldVM body) {
-    return this.contentFieldService.updateContentField(idContent, body);
+  @PutMapping("/{idContentField}")
+  public ContentField update(@PathVariable String idContentField, @RequestBody ContentFieldVM body) {
+    return this.contentFieldService.updateContentField(idContentField, body);
   }
 
-  @DeleteMapping("/{idContent}")
-  public void remove(@PathVariable String idContent) {
-    this.contentFieldService.deleteContentField(idContent);
+  @DeleteMapping("/{idContentField}")
+  public void remove(@PathVariable String idContentField) {
+    this.contentFieldService.deleteContentField(idContentField);
   }
 
 }

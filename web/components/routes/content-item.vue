@@ -47,7 +47,7 @@
           </template>
 
           <template v-if="field.type.code === 'RELATION'">
-            <v-text-field v-model="item[field.fieldName]" :error-messages="errors[0]" :label="field.name" dense outlined></v-text-field>
+            <v-select v-model="item[field.fieldName]" :error-messages="errors[0]" :items="relations[field.fieldName]" :label="field.name" dense outlined></v-select>
           </template>
         </validation-provider>
       </div>
@@ -68,6 +68,7 @@ export default class PageContentItem extends Vue {
 
   content: any = {}
   item: any = {}
+  relations = {}
 
   get fields () {
     return this.content.fields
@@ -88,6 +89,10 @@ export default class PageContentItem extends Vue {
       if (this.item == null) {
         return this.$nuxt.error({ statusCode: 404, path: '404', message: 'This page could not be found' })
       }
+    }
+
+    for await (let field of this.content.fields.filter(field => field.type.code === 'RELATION')) {
+      this.relations[field.fieldName] = await this.$api.relation.getAllData(field.relationContent._id);
     }
   }
 

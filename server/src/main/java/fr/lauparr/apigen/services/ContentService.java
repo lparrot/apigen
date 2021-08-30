@@ -43,6 +43,7 @@ public class ContentService {
     String oldCollectionName = content.getCollectionName();
 
     content.setName(body.getName());
+    content.setDisplayedField(body.getDisplayedField());
 
     content = contentRepository.save(content);
     databaseService.updateCollection(oldCollectionName, content);

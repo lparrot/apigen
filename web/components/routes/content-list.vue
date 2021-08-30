@@ -8,16 +8,16 @@
     </div>
 
     <v-data-table :headers="fields" :items="items" :options.sync="pagination">
-      <template v-for="(field, fieldIndex) in fields" v-slot:[getCellSlot(field.value)]="{item}">
-        <!--        <span v-if="field.type.code === 'RELATION' && field.relationContent != null">{{ $utils.get(item, [field.value, field.relationContent.displayedField].join('.'), item._id) }}</span>-->
-        <span>{{ item[field.value] }}</span>
+      <template v-for="(field, fieldIndex) in fields" v-slot:[getCellSlot(field.value)]="{value}">
+        <span v-if="field.type.code === 'RELATION' && field.relationContent != null">{{ $utils.get(value, field.relationContent.displayedField, value._id) }}</span>
+        <span v-else>{{ value }}</span>
       </template>
 
       <template #item.actions="{item}">
         <v-btn :to="{name: 'content-item', params: {idContent: content._id, idItem: item._id}}" color="info" fab x-small>
           <v-icon small>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn color="error" fab x-small>
+        <v-btn color="error" fab x-small @click="removeItem(item)">
           <v-icon small>mdi-delete</v-icon>
         </v-btn>
       </template>
@@ -59,6 +59,14 @@ export default class PageContentList extends Vue {
 
   getCellSlot (key) {
     return `item.${ key }`
+  }
+
+  async removeItem (item) {
+    const confirm = await this.$confirm.open('Confirmation', 'Are you sure ?', { color: 'warning' })
+    if (confirm) {
+      await this.$api.item.remove(this.content.slug, item._id)
+      await this.search()
+    }
   }
 
   async search () {

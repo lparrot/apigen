@@ -171,10 +171,10 @@ export default class PageContent extends Vue {
   }
 
   async deleteField (field) {
-    // const confirm = await this.$confirm.open('Confirmation', 'Are you sure ?', { color: 'warning' })
+    const confirm = await this.$confirm.open('Confirmation', 'Are you sure ?', { color: 'warning' })
     if (confirm) {
       await this.$api.content_fields.remove(field._id)
-      this.content.contentFields = this.content.contentFields.filter(contentField => field.dbFieldName !== contentField.dbFieldName)
+      this.content.fields = this.content.fields.filter(contentField => field.fieldName !== contentField.fieldName)
     }
   }
 
