@@ -43,8 +43,11 @@ class Utils {
     return !!instance.$slots[name] || !!instance.$scopedSlots[name]
   }
 
-  get (data: any, field: string, defaultValue: any = '') {
-    return get(data, field, defaultValue)
+  get (data: any, field: any[] | string, defaultValue: any = '') {
+    if (typeof field === 'string') {
+      return get(data, field, defaultValue)
+    }
+    return get(data, field.join("."), defaultValue)
   }
 }
 

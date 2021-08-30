@@ -89,9 +89,7 @@ export default class PageContentItem extends Vue {
       this.item = await this.$api.item.getById(this.content.slug, this.$route.params.idItem)
 
       relationFields.forEach(relationField => {
-        if (this.item[relationField.fieldName] != null) {
-          this.item[relationField.fieldName] = this.item[relationField.fieldName]._id
-        }
+        this.item[relationField.fieldName] = this.$utils.get(this.item, [ relationField.fieldName, "_id" ])
       })
 
       if (this.item == null) {
@@ -102,8 +100,6 @@ export default class PageContentItem extends Vue {
     for await (let field of relationFields) {
       this.relations[field.relationContent.slug] = await this.$api.relation.getAllData(field.relationContent._id);
     }
-
-    console.log(this.relations)
   }
 
   async submit () {
