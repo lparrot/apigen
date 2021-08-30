@@ -41,7 +41,7 @@ public class ContentItemService {
   }
 
   public Object getById(String slug, String idItem) {
-    return mongoTemplate.findById(idItem, Object.class, slug);
+    return mongoTemplate.findById(idItem, Document.class, slug);
   }
 
   public Object create(String slug, ObjectNode body) {

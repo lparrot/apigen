@@ -81,17 +81,25 @@ export default class PageContentItem extends Vue {
 
   async fetch () {
     this.content = await this.$api.content.getById(this.$route.params.idContent)
+    const relationFields = this.content.fields.filter(field => field.type.code === 'RELATION')
     if (this.content == null) {
       return this.$nuxt.error({ statusCode: 404, path: '404', message: 'This page could not be found' })
     }
     if (this.mode === 'edit') {
       this.item = await this.$api.item.getById(this.content.slug, this.$route.params.idItem)
+
+      relationFields.forEach(relationField => {
+        if (this.item[relationField.fieldName] != null) {
+          this.item[relationField.fieldName] = this.item[relationField.fieldName]._id
+        }
+      })
+
       if (this.item == null) {
         return this.$nuxt.error({ statusCode: 404, path: '404', message: 'This page could not be found' })
       }
     }
 
-    for await (let field of this.content.fields.filter(field => field.type.code === 'RELATION')) {
+    for await (let field of relationFields) {
       this.relations[field.relationContent.slug] = await this.$api.relation.getAllData(field.relationContent._id);
     }
 

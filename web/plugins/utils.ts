@@ -43,7 +43,7 @@ class Utils {
     return !!instance.$slots[name] || !!instance.$scopedSlots[name]
   }
 
-  get (data: any, field: string, defaultValue: any) {
+  get (data: any, field: string, defaultValue: any = '') {
     return get(data, field, defaultValue)
   }
 }
