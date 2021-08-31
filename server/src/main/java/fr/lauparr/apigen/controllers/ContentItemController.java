@@ -16,13 +16,13 @@ public class ContentItemController {
   private ContentItemService contentItemService;
 
   @GetMapping
-  public ResponseEntity<?> getAll(@PathVariable String slug, Pageable page) {
-    return ResponseEntity.ok(contentItemService.getAll(slug, page));
+  public ResponseEntity<?> getAll(@PathVariable String slug, Pageable page, @RequestParam(required = false) String fields) {
+    return ResponseEntity.ok(contentItemService.getAll(slug, page, fields));
   }
 
   @GetMapping("/{idItem}")
-  public ResponseEntity<?> getById(@PathVariable String slug, @PathVariable String idItem) {
-    return ResponseEntity.ok(contentItemService.getById(slug, idItem));
+  public ResponseEntity<?> getById(@PathVariable String slug, @PathVariable String idItem, @RequestParam(required = false) String fields) {
+    return ResponseEntity.ok(contentItemService.getById(slug, idItem, fields));
   }
 
   @PostMapping

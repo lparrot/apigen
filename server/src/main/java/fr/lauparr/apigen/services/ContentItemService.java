@@ -1,6 +1,5 @@
 package fr.lauparr.apigen.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mongodb.DBRef;
 import fr.lauparr.apigen.config.jackson.JsonNodeToDocumentConverter;
@@ -19,6 +18,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,12 +27,15 @@ public class ContentItemService {
   @Autowired
   private MongoTemplate mongoTemplate;
   @Autowired
-  private ObjectMapper objectMapper;
-  @Autowired
   private ContentRepository contentRepository;
 
-  public Page getAll(String slug, Pageable page) {
+  public Page getAll(String slug, Pageable page, String fields) {
     Query query = new Query().with(page);
+
+    if (fields != null) {
+      query.fields().include(fields.split(","));
+    }
+
     List<?> list = mongoTemplate.find(query, Document.class, slug);
     return PageableExecutionUtils.getPage(
       list,
@@ -40,8 +43,22 @@ public class ContentItemService {
       () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Document.class, slug));
   }
 
-  public Object getById(String slug, String idItem) {
-    return mongoTemplate.findById(idItem, Document.class, slug);
+  public Object getById(String slug, String idItem, String fields) {
+    Query query = new Query();
+
+    if (fields != null) {
+      Arrays.stream(fields.split(",")).forEach(field -> {
+        if (field.startsWith("-")) {
+          query.fields().exclude(field.substring(1));
+        } else {
+          query.fields().include(field);
+        }
+      });
+    }
+
+    query.addCriteria(Criteria.where("_id").is(idItem));
+
+    return mongoTemplate.find(query, Document.class, slug);
   }
 
   public Object create(String slug, ObjectNode body) {
