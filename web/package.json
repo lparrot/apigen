@@ -20,6 +20,7 @@
     "lodash.range": "^3.2.0",
     "nuxt": "^2.15.7",
     "vee-validate": "^3.4.11",
+    "vue-toastification": "^1.7.11",
     "vuetify": "^2.5.5",
     "vuex": "*",
     "webstomp-client": "^1.2.6"

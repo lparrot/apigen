@@ -1,5 +1,6 @@
 package fr.lauparr.apigen.services;
 
+import com.mongodb.DBRef;
 import fr.lauparr.apigen.dtos.ContentFieldVM;
 import fr.lauparr.apigen.entities.Content;
 import fr.lauparr.apigen.entities.ContentField;
@@ -60,11 +61,19 @@ public class ContentFieldService {
     field.setName(body.getName());
     field.setType(body.getType());
     field.setNullable(body.isNullable());
-    field.setLength(body.getLength() != null ? body.getLength() : body.getType().getDefaultLength());
+    field.setParams(body.getParams());
 
-    if (body.getRelationContent() != null) {
-      field.setRelationContent(contentRepository.findById(body.getRelationContent()).orElseThrow(DataNotFoundException::new));
-      field.setRelationType(body.getRelationType());
+    // Switch for params
+    switch (field.getType()) {
+      case RELATION:
+        field.getParams().put("relationContent", new DBRef("content", body.getParams().get("relationContent")));
+//        field.getParams().put("relationType", body.getRelationType());
+        break;
+      case STRING:
+//        field.getParams().put("password", body.getParams().get("password"));
+        break;
+      default:
+        break;
     }
   }
 

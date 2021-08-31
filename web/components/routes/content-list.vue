@@ -7,9 +7,9 @@
       <v-btn color="error" small @click="deleteContent">Delete content {{ content.name }}</v-btn>
     </div>
 
-    <v-data-table :headers="fields" :items="items" :options.sync="pagination">
+    <v-data-table :headers="fields" :items="items" :options.sync="options" :server-items-length="totalItems">
       <template v-for="(field, fieldIndex) in fields" v-slot:[getCellSlot(field.value)]="{value}">
-        <span v-if="field.type.code === 'RELATION' && field.relationContent != null">{{ $utils.get(value, field.relationContent.displayedField, value._id) }}</span>
+        <span v-if="field.type.code === 'RELATION'">{{ $utils.get(value, field.params.relationContent.displayedField, value._id) }}</span>
         <span v-else>{{ value }}</span>
       </template>
 
@@ -26,7 +26,8 @@
 </template>
 
 <script lang="ts">
-import { Action, Component, Vue } from 'nuxt-property-decorator'
+import { Action, Component, Vue, Watch } from 'nuxt-property-decorator'
+import { DataOptions } from 'vuetify'
 
 @Component
 export default class PageContentList extends Vue {
@@ -35,7 +36,8 @@ export default class PageContentList extends Vue {
 
   content = null
   items = null
-  pagination: any = { page: 1, itemsPerPage: 5, total: 0 }
+  totalItems = null
+  options: Partial<DataOptions> = {}
 
   get fields () {
     let fields = this.content.fields
@@ -73,9 +75,14 @@ export default class PageContentList extends Vue {
   }
 
   async search () {
-    const res = await this.$api.item.getAll(this.content.slug, { size: this.pagination.itemsPerPage, page: this.pagination.page })
+    const res = await this.$api.item.getAll(this.content.slug, this.$utils.convertPagination(this.options))
     this.items = res.content
-    this.pagination.total = res.numberOfElements
+    this.totalItems = res.totalElements
+  }
+
+  @Watch('options', { deep: true })
+  async onChangeOptions (options: DataOptions) {
+    await this.search()
   }
 }
 </script>

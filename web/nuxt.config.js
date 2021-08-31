@@ -64,6 +64,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    'vue-toastification/nuxt',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -108,6 +109,11 @@ export default {
         },
       },
     },
+  },
+
+  toast: {
+    timeout: 5000,
+    maxToasts: 5,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

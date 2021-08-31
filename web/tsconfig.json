@@ -32,7 +32,8 @@
       "@nuxt/types",
       "@nuxtjs/axios",
       "@types/node",
-      "vuetify/types"
+      "vuetify/types",
+      "vue-toastification/src/types"
     ]
   },
   "exclude": [

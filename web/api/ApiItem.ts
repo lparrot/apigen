@@ -1,7 +1,8 @@
 import { AbstractRepository } from '@/api/AbstractRepository'
+import { DataOptions } from 'vuetify'
 
 export class ApiItem extends AbstractRepository {
-  getAll (slug: string, pagination) {
+  getAll (slug: string, pagination: Partial<DataOptions>) {
     return this._axios.$get(`/${ slug }`, { params: { ...pagination } })
   }
 

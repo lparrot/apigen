@@ -1,9 +1,9 @@
 package fr.lauparr.apigen.dtos;
 
-import fr.lauparr.apigen.enums.EnumContentFieldRelationType;
 import fr.lauparr.apigen.enums.EnumContentFieldType;
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.Document;
 
 @Getter
 @Setter
@@ -14,8 +14,6 @@ public class ContentFieldVM {
   private String name;
   private EnumContentFieldType type;
   private boolean nullable;
-  private String length;
 
-  private EnumContentFieldRelationType relationType;
-  private String relationContent;
+  private Document params;
 }

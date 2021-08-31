@@ -4,6 +4,7 @@ import PageContent from '~/components/routes/content.vue'
 import PageContentList from '~/components/routes/content-list.vue'
 import PageContentItem from '~/components/routes/content-item.vue'
 import { ConfirmDialogService } from '~/services/confirm-dialog.service'
+import ToastInterface from 'vue-toastification/src/ts/interface'
 
 export default async (ctx: Context, inject: Inject) => {
   ctx.app.router.addRoute({ name: 'content', path: '/contents/:idContent?', component: PageContent })
@@ -26,6 +27,7 @@ declare module '@nuxt/types' {
 
   interface Context {
     readonly $confirm: ConfirmDialogService
+    readonly $toast: ReturnType<typeof ToastInterface>
   }
 }
 

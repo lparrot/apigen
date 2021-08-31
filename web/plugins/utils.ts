@@ -1,22 +1,25 @@
 import { Context } from '@nuxt/types'
 import { Inject } from '@nuxt/types/app'
 import get from 'lodash.get'
+import { DataOptions, DataPagination } from 'vuetify'
 
 export default async (ctx: Context, inject: Inject) => {
   inject('utils', new Utils())
 }
 
 class Utils {
-  formatBytes (bytes, decimals = 2) {
-    if (bytes === 0) return '0 Bytes'
+  convertPagination (options: Partial<DataOptions>) {
+    let result = {
+      page: options.page - 1 < 0 ? 0 : options.page - 1,
+      size: options.itemsPerPage,
+      sort: null,
+    }
 
-    const k = 1024
-    const dm = decimals < 0 ? 0 : decimals
-    const sizes = [ 'Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ]
+    if (options.sortBy != null && options.sortBy.length > 0) {
+      result.sort = options.sortBy[0].concat(options.sortDesc[0] ? ',desc' : '')
+    }
 
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+    return result
   }
 
   downloadFile (data, filename) {
@@ -39,8 +42,16 @@ class Utils {
     }
   }
 
-  hasSlot (instance, name = 'default') {
-    return !!instance.$slots[name] || !!instance.$scopedSlots[name]
+  formatBytes (bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = [ 'Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ]
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
   }
 
   get (data: any, field: any[] | string, defaultValue: any = '') {
@@ -48,6 +59,10 @@ class Utils {
       return get(data, field, defaultValue)
     }
     return get(data, field.join("."), defaultValue)
+  }
+
+  hasSlot (instance, name = 'default') {
+    return !!instance.$slots[name] || !!instance.$scopedSlots[name]
   }
 }
 

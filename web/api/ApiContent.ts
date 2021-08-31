@@ -9,13 +9,6 @@ export class ApiContent extends AbstractRepository {
     return this._axios.$get(`/app/contents/${ id }`)
   }
 
-  private static _entityToPojo ({ name, displayedField }) {
-    return {
-      name,
-      displayedField,
-    }
-  }
-
   create (body) {
     return this._axios.$post(`/app/contents`, ApiContent._entityToPojo(body))
   }
@@ -26,5 +19,12 @@ export class ApiContent extends AbstractRepository {
 
   update (id, body) {
     return this._axios.$put(`/app/contents/${ id }`, ApiContent._entityToPojo(body))
+  }
+
+  private static _entityToPojo ({ name, displayedField }) {
+    return {
+      name,
+      displayedField,
+    }
   }
 }

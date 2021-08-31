@@ -43,7 +43,7 @@
                 </td>
                 <td>
                   <span>{{ field.type.code }}</span>
-                  <span v-if="field.type.code === 'RELATION' && field.relationContent != null" class="ml-1 text-caption font-italic">with {{ field.relationContent.name }}</span>
+                  <span v-if="field.type.code === 'RELATION'" class="ml-1 text-caption font-italic">with {{ field.params.relationContent.name }}</span>
                 </td>
                 <td>
                   <v-radio-group v-model="content.displayedField" class="pa-0" dense @change="updateContent">
@@ -121,6 +121,7 @@
 
 <script lang="ts">
 import { Action, Component, Ref, State, Vue } from 'nuxt-property-decorator'
+import { TYPE } from 'vue-toastification/src/ts/constants'
 
 declare type EditMode = 'add' | 'edit'
 
@@ -228,6 +229,8 @@ export default class PageContent extends Vue {
         }
       }
       await this.getContents()
+
+      this.$toast("Content updated", { type: TYPE.SUCCESS })
     }
   }
 
@@ -241,12 +244,16 @@ export default class PageContent extends Vue {
 
       if (this.modeField === 'edit') {
         field = await this.$api.content_fields.update(this.fieldEdit._id, this.fieldEdit)
-        this.$set(this.content.contentFields, this.content.contentFields.findIndex(field => field.dbFieldName === this.fieldEdit.fieldName), field)
+        this.$set(this.content.fields, this.content.fields.findIndex(field => field.fieldName === this.fieldEdit.fieldName), field)
+
+        this.$toast("Field updated", { type: TYPE.SUCCESS })
       } else {
         field = await this.$api.content_fields.create(this.fieldEdit)
         if (field !== '') {
           this.content.fields.push(field)
         }
+
+        this.$toast("Field created", { type: TYPE.SUCCESS })
       }
       this.fieldEdit = null
       this.dialogs.dialogEditField = false

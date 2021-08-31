@@ -32,7 +32,7 @@ public class ContentItemService {
   private ContentRepository contentRepository;
 
   public Page getAll(String slug, Pageable page) {
-    Query query = new Query();
+    Query query = new Query().with(page);
     List<?> list = mongoTemplate.find(query, Document.class, slug);
     return PageableExecutionUtils.getPage(
       list,
@@ -85,7 +85,7 @@ public class ContentItemService {
     }
 
     content.getFields().stream().filter(field -> EnumContentFieldType.RELATION.equals(field.getType())).forEach(field -> {
-      document.put(field.getFieldName(), new DBRef(field.getRelationContent().getCollectionName(), document.get(field.getFieldName())));
+      document.put(field.getFieldName(), new DBRef(field.getParams().get("relationContent", Content.class).getCollectionName(), document.get(field.getFieldName())));
     });
     return document;
   }

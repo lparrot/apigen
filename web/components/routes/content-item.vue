@@ -9,7 +9,7 @@
             numeric: field.type.code === 'NUMBER'
           }">
           <template v-if="field.type.code === 'STRING'">
-            <v-text-field v-model="item[field.fieldName]" :error-messages="errors[0]" :label="field.name" dense outlined></v-text-field>
+            <v-text-field v-model="item[field.fieldName]" :error-messages="errors[0]" :label="field.name" :type="$utils.get(field, 'params.password') ? 'password' : 'text'" dense outlined></v-text-field>
           </template>
 
           <template v-if="field.type.code === 'NUMBER'">
@@ -47,7 +47,7 @@
           </template>
 
           <template v-if="field.type.code === 'RELATION'">
-            <v-select v-model="item[field.fieldName]" :error-messages="errors[0]" :items="relations[field.relationContent.slug]" :label="field.name" dense outlined></v-select>
+            <v-select v-model="item[field.fieldName]" :error-messages="errors[0]" :items="relations[field.params.relationContent.slug]" :label="field.name" dense outlined></v-select>
           </template>
         </validation-provider>
       </div>
@@ -98,7 +98,7 @@ export default class PageContentItem extends Vue {
     }
 
     for await (let field of relationFields) {
-      this.relations[field.relationContent.slug] = await this.$api.relation.getAllData(field.relationContent._id);
+      this.relations[field.params.relationContent.slug] = await this.$api.relation.getAllData(field.params.relationContent._id);
     }
   }
 
