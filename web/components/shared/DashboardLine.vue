@@ -48,7 +48,7 @@ export default class DashboardLine extends Vue {
             plugins: {
               legend: {
                 labels: {
-                  color: 'white',
+                  color: this.$vuetify.theme.dark ? 'white' : '',
                 },
               },
             },

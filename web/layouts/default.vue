@@ -1,6 +1,6 @@
 <template>
   <v-app v-if="!$fetchState.pending" dark>
-    <v-navigation-drawer v-model="drawer" app fixed>
+    <v-navigation-drawer v-model="drawer" app fixed mobile-breakpoint="sm">
       <v-list class="mx-2" dense>
         <v-list-item>
           <v-list-item-content>
@@ -39,7 +39,7 @@
     </v-navigation-drawer>
 
     <v-app-bar app dense fixed flat tile>
-      <v-app-bar-nav-icon v-if="$vuetify.breakpoint.mdAndDown" @click.stop="drawer = !drawer"/>
+      <v-app-bar-nav-icon v-if="$vuetify.breakpoint.smAndDown" @click.stop="drawer = !drawer"/>
       <v-spacer></v-spacer>
 
       <v-menu offset-y rounded>
@@ -80,7 +80,7 @@ export default class LayoutDefault extends Vue {
   @State('contents') contents: any[]
   @Action('getContents') getContents
 
-  drawer = this.$vuetify.breakpoint.lgAndUp
+  drawer = this.$vuetify.breakpoint.mdAndUp
 
   adminPages = [
     { text: 'Dashboard', to: '/admin/dashboard', icon: 'mdi-view-dashboard' },
