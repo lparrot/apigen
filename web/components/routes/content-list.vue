@@ -36,7 +36,7 @@ export default class PageContentList extends Vue {
   @Action('getContents') getContents
 
   content = null
-  items = null
+  items = []
   totalItems = null
   options: Partial<DataOptions> = {}
 
@@ -51,7 +51,6 @@ export default class PageContentList extends Vue {
 
   async fetch () {
     this.content = await this.$api.content.getById(this.$route.params.idContent)
-    await this.search()
   }
 
   async deleteContent () {
