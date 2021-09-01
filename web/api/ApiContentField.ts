@@ -10,17 +10,16 @@ export class ApiContentField extends AbstractRepository {
   }
 
   private static _entityToPojo ({ contentId, name, type, nullable, params, relationType, relationContent }) {
-    console.log(params)
-    console.log(Object.keys(params).length)
+    let paramsToSend = null
     if (Object.keys(params).length < 1) {
-      params = null
+      paramsToSend = params
     }
     return {
       contentId,
       name,
       type,
       nullable,
-      params,
+      params: paramsToSend,
       relationType,
       relationContent,
     }

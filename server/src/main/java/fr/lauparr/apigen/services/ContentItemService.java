@@ -36,7 +36,8 @@ public class ContentItemService {
       query.fields().include(fields.split(","));
     }
 
-    List<?> list = mongoTemplate.find(query, Document.class, slug);
+    List<Document> list = mongoTemplate.find(query, Document.class, slug);
+
     return PageableExecutionUtils.getPage(
       list,
       page,
@@ -58,7 +59,7 @@ public class ContentItemService {
 
     query.addCriteria(Criteria.where("_id").is(idItem));
 
-    return mongoTemplate.find(query, Document.class, slug);
+    return mongoTemplate.findOne(query, Document.class, slug);
   }
 
   public Object create(String slug, ObjectNode body) {
@@ -102,7 +103,9 @@ public class ContentItemService {
     }
 
     content.getFields().stream().filter(field -> EnumContentFieldType.RELATION.equals(field.getType())).forEach(field -> {
-      document.put(field.getFieldName(), new DBRef(field.getParams().get("relationContent", Content.class).getCollectionName(), document.get(field.getFieldName())));
+      Content targetContent = contentRepository.findById((String) field.getParams().get("relationContent", DBRef.class).getId()).orElseThrow(DataNotFoundException::new);
+
+      document.put(field.getFieldName(), new DBRef(targetContent.getCollectionName(), document.get(field.getFieldName())));
     });
     return document;
   }

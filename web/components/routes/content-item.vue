@@ -59,6 +59,7 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'nuxt-property-decorator'
+import { TYPE } from 'vue-toastification/src/ts/constants'
 
 declare type EditMode = 'add' | 'edit'
 
@@ -108,9 +109,11 @@ export default class PageContentItem extends Vue {
       switch (this.mode) {
         case 'add':
           await this.$api.item.create(this.content.slug, this.item)
+          this.$toast('Item is now created', { type: TYPE.SUCCESS })
           break
         case 'edit':
           await this.$api.item.update(this.content.slug, this.item._id, this.item)
+          this.$toast('Item is now updated', { type: TYPE.SUCCESS })
           break
         default:
           break

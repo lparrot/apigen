@@ -64,7 +64,7 @@
             </tbody>
           </v-simple-table>
 
-          <v-btn class="mt-5" color="success" small type="button" @click="addField">Add another field</v-btn>
+          <v-btn class="mt-5" color="success" small type="button" @click="addField">Add new field</v-btn>
         </v-card-text>
       </v-card>
     </template>
@@ -176,6 +176,7 @@ export default class PageContent extends Vue {
     if (confirm) {
       await this.$api.content_fields.remove(field._id)
       this.content.fields = this.content.fields.filter(contentField => field.fieldName !== contentField.fieldName)
+      this.$toast('Field is now deleted', { type: TYPE.SUCCESS })
     }
   }
 
@@ -222,15 +223,15 @@ export default class PageContent extends Vue {
     if (valid) {
       if (this.mode === 'edit') {
         await this.updateContent()
+        this.$toast("Content updated", { type: TYPE.SUCCESS })
       } else {
         const content = await this.$api.content.create(this.content)
         if (content !== '') {
           await this.$router.push({ name: 'content', params: { idContent: content._id } })
         }
+        this.$toast('Content is now created', { type: TYPE.SUCCESS })
       }
       await this.getContents()
-
-      this.$toast("Content updated", { type: TYPE.SUCCESS })
     }
   }
 

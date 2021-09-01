@@ -5,7 +5,6 @@ import fr.lauparr.apigen.services.ContentItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,12 +15,12 @@ public class ContentItemController {
   private ContentItemService contentItemService;
 
   @GetMapping
-  public ResponseEntity<?> getAll(@PathVariable String slug, Pageable page, @RequestParam(required = false) String fields) {
+  public ResponseEntity<?> getAll(@PathVariable String slug, Pageable page, @RequestHeader(required = false) String fields) {
     return ResponseEntity.ok(contentItemService.getAll(slug, page, fields));
   }
 
   @GetMapping("/{idItem}")
-  public ResponseEntity<?> getById(@PathVariable String slug, @PathVariable String idItem, @RequestParam(required = false) String fields) {
+  public ResponseEntity<?> getById(@PathVariable String slug, @PathVariable String idItem, @RequestHeader(required = false) String fields) {
     return ResponseEntity.ok(contentItemService.getById(slug, idItem, fields));
   }
 
@@ -36,7 +35,7 @@ public class ContentItemController {
   }
 
   @DeleteMapping("/{idItem}")
-  public ResponseEntity<?> remove(ServerHttpRequest request, @PathVariable String slug, @PathVariable String idItem) {
+  public ResponseEntity<?> remove(@PathVariable String slug, @PathVariable String idItem) {
     return ResponseEntity.ok(contentItemService.remove(slug, idItem));
   }
 

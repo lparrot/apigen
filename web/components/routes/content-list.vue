@@ -9,7 +9,7 @@
 
     <v-data-table :headers="fields" :items="items" :options.sync="options" :server-items-length="totalItems">
       <template v-for="(field, fieldIndex) in fields" v-slot:[getCellSlot(field.value)]="{value}">
-        <span v-if="field.type.code === 'RELATION'">{{ $utils.get(value, field.params.relationContent.displayedField, value._id) }}</span>
+        <span v-if="field.type.code === 'RELATION' && value != null">{{ $utils.get(value, field.params.relationContent.displayedField, value._id) }}</span>
         <span v-else>{{ value }}</span>
       </template>
 
@@ -28,6 +28,7 @@
 <script lang="ts">
 import { Action, Component, Vue, Watch } from 'nuxt-property-decorator'
 import { DataOptions } from 'vuetify'
+import { TYPE } from 'vue-toastification/src/ts/constants'
 
 @Component
 export default class PageContentList extends Vue {
@@ -57,6 +58,7 @@ export default class PageContentList extends Vue {
     const confirm = await this.$confirm.open('Confirmation', 'Are you sure ?', { color: 'warning' })
     if (confirm) {
       await this.$api.content.remove(this.content._id)
+      this.$toast('Content is now deleted', { type: TYPE.SUCCESS })
       await this.$router.push({ name: 'content' })
       await this.getContents()
     }
@@ -70,6 +72,7 @@ export default class PageContentList extends Vue {
     const confirm = await this.$confirm.open('Confirmation', 'Are you sure ?', { color: 'warning' })
     if (confirm) {
       await this.$api.item.remove(this.content.slug, item._id)
+      this.$toast('Item is now deleted', { type: TYPE.SUCCESS })
       await this.search()
     }
   }
