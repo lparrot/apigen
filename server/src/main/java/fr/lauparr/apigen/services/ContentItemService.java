@@ -1,6 +1,7 @@
 package fr.lauparr.apigen.services;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import fr.lauparr.apigen.config.jackson.JsonNodeToDocumentConverter;
 import fr.lauparr.apigen.entities.Content;
@@ -29,19 +30,19 @@ public class ContentItemService {
   @Autowired
   private ContentRepository contentRepository;
 
-  public Page getAll(String slug, Pageable page, String fields) {
+  public Page<DBObject> getAll(String slug, Pageable page, String fields) {
     Query query = new Query().with(page);
 
     if (fields != null) {
       query.fields().include(fields.split(","));
     }
 
-    List<Document> list = mongoTemplate.find(query, Document.class, slug);
+    List<DBObject> list = mongoTemplate.find(query, DBObject.class, slug);
 
     return PageableExecutionUtils.getPage(
       list,
       page,
-      () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Document.class, slug));
+      () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), DBObject.class, slug));
   }
 
   public Object getById(String slug, String idItem, String fields) {

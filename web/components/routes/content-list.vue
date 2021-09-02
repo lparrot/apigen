@@ -7,6 +7,39 @@
       <v-btn color="error" small @click="deleteContent">Delete content {{ content.name }}</v-btn>
     </div>
 
+    <div class="d-flex justify-space-between my-2">
+      <div>
+
+      </div>
+      <div>
+        <v-menu v-model="menuOptions" :close-on-content-click="false" :nudge-width="200" offset-y>
+
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="primary" icon text v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-text>
+              <div class="subtitle-1">Shown fields</div>
+
+              <template v-for="(field, fieldIndex) in fields">
+                <div v-if="field.value !== 'actions'" :key="fieldIndex">
+                  <v-checkbox :label="field.name" :value="field.hide" dense hide-details>
+                    <template #label>
+                      <div class="text-caption">{{ field.name }}</div>
+                    </template>
+                  </v-checkbox>
+                </div>
+              </template>
+            </v-card-text>
+          </v-card>
+
+        </v-menu>
+      </div>
+    </div>
+
     <v-data-table :headers="fields" :items="items" :options.sync="options" :server-items-length="totalItems">
       <template v-for="(field, fieldIndex) in fields" v-slot:[getCellSlot(field.value)]="{value}">
         <span v-if="field.type.code === 'RELATION' && value != null">{{ $utils.get(value, field.params.relationContent.displayedField, value._id) }}</span>
@@ -36,6 +69,7 @@ export default class PageContentList extends Vue {
   @Action('getContents') getContents
 
   content = null
+  menuOptions = false
   items = []
   totalItems = null
   options: Partial<DataOptions> = {}
